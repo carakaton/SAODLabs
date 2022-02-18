@@ -1,9 +1,9 @@
 import random
+from datetime import datetime
 
 #создание матрицы m*n из случынйх чисел от min_limit до max_limit
 def generateMatrix(m = 50, n = 50, min_limit = -250, max_limit = 1009):
     return [[random.randint(min_limit, max_limit) for j in range(n)] for i in range(m)]
-
 #вывод матрицы в консоль
 def printMatrix(matrix, title = ""):
     print("\n" + title)
@@ -12,7 +12,32 @@ def printMatrix(matrix, title = ""):
             cell = str(number)
             print(cell + " "*(4-len(cell)), end=' ')
         print("\n")
-
+#сортировка выбором 
+def selection_sort(matrix):
+    height = len(matrix)
+    for line in range(height): 
+        width = len(matrix[line])
+        for i in range(width - 1):
+            minimal = i 
+            for j in range(i + 1, width): 
+                if matrix[line][j] < matrix[line][minimal]: 
+                    minimal = j 
+            matrix[line][i], matrix[line][minimal] = matrix[line][minimal], matrix[line][i]
+            
+    return matrix
+#сортировка вставками 
+def insertion_sort(matrix):
+    height = len(matrix)
+    for line in range(height):
+        width = len(matrix[line])
+        for i in range(1, width): 
+            key = matrix[line][i] 
+            k = i - 1 
+            while k >= 0 and key < matrix[line][k]: 
+                matrix[line][k+1] = matrix[line][k] 
+                k -= 1 
+            matrix[line][k+1] = key
+    return matrix
 #сортировка обменом
 def bubble_sort(matrix):
     height = len(matrix)
@@ -23,7 +48,19 @@ def bubble_sort(matrix):
                 if matrix[line][j] > matrix[line][j+1]: 
                     matrix[line][j], matrix[line][j+1] = matrix[line][j+1], matrix[line][j]
     return matrix
-
+#сортировка методом шелла
+def shell_sort(matrix):
+    height = len(matrix)
+    for line in range(height): 
+        width = len(matrix[line])
+        d = width // 2
+        while d > 0:
+            for i in range(width):
+                for j in range(i + d, width, d): 
+                    if matrix[line][i] > matrix[line][j]: 
+                        matrix[line][i], matrix[line][j] = matrix[line][j], matrix[line][i]
+            d = d // 2
+    return matrix
 #турнирная
 def tournament_sort(matrix):
     height = len(matrix)
@@ -56,8 +93,7 @@ def tournament_sort(matrix):
             matrix[line][j] = x 
             tree[treeWitdh - width - width % 2 + index] = None
     return matrix
-
-#Быстрая сортировка
+#быстрая сортировка
 def quick_sort(matrix):
     height = len(matrix)
     for line in range(height):
@@ -83,8 +119,7 @@ def partition(array, start, end):
         else: 
             array[start], array[j] = array[j], array[start] 
             return j 
-
-#Пирамидальная сортировка 
+#пирамидальная сортировка 
 def heap_sort(matrix):
     height = len(matrix)
     for line in range(height):
@@ -112,60 +147,59 @@ def max_heapify(array, index, size):
     if (largest != index): 
         array[largest], array[index] = array[index], array[largest] 
         max_heapify(array, largest, size) 
-
-#сортировка методом Шелла
-def shell_sort(matrix):
-    height = len(matrix)
-    for line in range(height): 
-        width = len(matrix[line])
-        d = width // 2
-        while d > 0:
-            for i in range(width):
-                for j in range(i + d, width, d): 
-                    if matrix[line][i] > matrix[line][j]: 
-                        matrix[line][i], matrix[line][j] = matrix[line][j], matrix[line][i]
-            d = d // 2
-    return matrix
-
-#сортировка выбором 
-def selection_sort(matrix):
-    height = len(matrix)
-    for line in range(height): 
-        width = len(matrix[line])
-        for i in range(width - 1):
-            minimal = i 
-            for j in range(i + 1, width): 
-                if matrix[line][j] < matrix[line][minimal]: 
-                    minimal = j 
-            matrix[line][i], matrix[line][minimal] = matrix[line][minimal], matrix[line][i]
-            
-    return matrix
-    
-#сортировка вставками 
-def insertion_sort(matrix):
-    height = len(matrix)
-    for line in range(height):
-        width = len(matrix[line])
-        for i in range(1, width): 
-            key = matrix[line][i] 
-            k = i - 1 
-            while k >= 0 and key < matrix[line][k]: 
-                matrix[line][k+1] = matrix[line][k] 
-                k -= 1 
-            matrix[line][k+1] = key
-    return matrix
         
-#программа 
 #m = int(input("n = ")) 
 #n = int(input("m = ")) 
 #min_lim = int(input("min_limit = ")) 
 #max_lim = int(input("max_limit = "))
 matrix = generateMatrix()
-printMatrix(matrix)
-#printMatrix(shell_sort(matrix), "шалом")
-#printMatrix(selection_sort(matrix), "выборка")
-#printMatrix(insertion_sort(matrix), "вставки")
-#printMatrix(heap_sort(matrix), "пирамидка")
-#printMatrix(quick_sort(matrix), "быстрая")
-#printMatrix(bubble_sort(matrix), "пузырьковая")
-#printMatrix(tournament_sort(matrix), "турнирная")
+
+before = int(datetime.now().microsecond)
+selection_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Методом выбора:\t" + time)
+
+before = int(datetime.now().microsecond)
+insertion_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Вставками:\t" + time)
+
+before = int(datetime.now().microsecond)
+bubble_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Методом обмена:\t" + time)
+
+before = int(datetime.now().microsecond)
+shell_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Методом Шелла:\t" + time)
+
+before = int(datetime.now().microsecond)
+tournament_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Турнирная:\t" + time)
+
+before = int(datetime.now().microsecond)
+quick_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Быстрая:\t" + time)
+
+before = int(datetime.now().microsecond)
+heap_sort(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Пирамидальная:\t" + time)
+
+before = int(datetime.now().microsecond)
+sorted(matrix.copy())
+after = int(datetime.now().microsecond)
+time = str(abs(after - before))
+print("Стандартная:\t" + time)
+
+
