@@ -51,7 +51,11 @@ def task_2():
 
 
 def task_3():
-    pass
+    A = Stack()
+    B = Stack()
+    C = Stack()
+
+    disks = 4
 
 
 def task_4():

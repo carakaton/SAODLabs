@@ -62,7 +62,7 @@ class View:
         if view is not None:
             view.display()
         else:
-            input("Сохранение повреждено.\nНажмите Enter чтобы вернуться к стартовому меню")
+            input("Сохранение повреждено.\n\nНажмите Enter чтобы вернуться к стартовому меню")
             start_view.display()
 
 

@@ -39,9 +39,6 @@ class Deque:
         self.data = data
         return popped
 
-    def display(self):
-        print(self.data)
-
     def peek(self):
         if len(self.data) > 0:
             return self.data[-1]
@@ -53,3 +50,6 @@ class Deque:
             return self.data[0]
         else:
             return ""
+
+    def display(self):
+        print(self.data)

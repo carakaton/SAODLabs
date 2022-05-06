@@ -1,17 +1,32 @@
 import time
 
 
-# Подсчет времени выполнения функции
-def time_of(function, func_args, precision):
-    summ = 0
+def wait(sec=1):
+    time.sleep(sec)
+
+
+# Подсчет времени выполнения функции c множеством аргументов
+def time_of(function, func_args: tuple, precision):
+    summa = 0
     for i in range(precision):
         start = time.perf_counter()
         function(*func_args)
         end = time.perf_counter()
-        summ += abs(end - start)
+        summa += abs(end - start)
 
-    return summ / precision * 1000
+    return summa / precision * 1000
 
+
+# Подсчет времени выполнения функции c одним аргументом
+def time_of(function, func_arg, precision):
+    summa = 0
+    for i in range(precision):
+        start = time.perf_counter()
+        function(func_arg)
+        end = time.perf_counter()
+        summa += abs(end - start)
+
+    return summa / precision * 1000
 
 # Нахождение самой быстрой функции
 def find_bestie(args_tuple, precision):
