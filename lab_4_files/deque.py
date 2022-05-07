@@ -2,7 +2,7 @@ class Deque:
     def __init__(self):
         self.data = [""] * 0
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return True if len(self.data) == 0 else False
 
     def push(self, element):
@@ -22,6 +22,12 @@ class Deque:
         self.data = data
         return getted
 
+    def peek(self):
+        if len(self.data) > 0:
+            return self.data[-1]
+        else:
+            return ""
+
     def push_left(self, element):
         length = len(self.data)
         data = [""] * (length + 1)
@@ -39,12 +45,6 @@ class Deque:
         self.data = data
         return popped
 
-    def peek(self):
-        if len(self.data) > 0:
-            return self.data[-1]
-        else:
-            return ""
-
     def peek_left(self):
         if len(self.data) > 0:
             return self.data[0]
@@ -53,3 +53,6 @@ class Deque:
 
     def display(self):
         print(self.data)
+
+    def __len__(self) -> int:
+        return len(self.data)

@@ -2,7 +2,7 @@ class Stack:
     def __init__(self):
         self.data = [""] * 0
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return True if len(self.data) == 0 else False
 
     def push(self, element):
@@ -24,3 +24,6 @@ class Stack:
 
     def display(self):
         print(self.data)
+
+    def __len__(self) -> int:
+        return len(self.data)
