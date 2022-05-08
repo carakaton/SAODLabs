@@ -18,8 +18,8 @@ def task_3():
         (sorted, matrix.copy()),
     ], 10)
 
-# m = int(input("n = "))
-# n = int(input("m = "))
-# min_lim = int(input("min_limit = "))
-# max_lim = int(input("max_limit = "))
+# m = int(input('n = '))
+# n = int(input('m = '))
+# min_lim = int(input('min_limit = '))
+# max_lim = int(input('max_limit = '))
 

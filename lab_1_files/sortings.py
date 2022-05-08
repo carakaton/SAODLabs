@@ -61,31 +61,31 @@ def tournament_sort(matrix):
     for line in range(height):
         width = len(matrix[line])
         tree = [None] * 2 * (width + width % 2)
-        treeWitdh = len(tree)
-        index = treeWitdh - width - width % 2
+        tree_witdh = len(tree)
+        index = tree_witdh - width - width % 2
 
         for i, v in enumerate(matrix[line]):
             tree[index + i] = (i, v)
 
         for j in range(width):
             n = width
-            index = treeWitdh - width - width % 2
+            index = tree_witdh - width - width % 2
             while index > -1:
                 n = (n + 1) // 2
                 for i in range(n):
                     i = max(index + i * 2, 1)
-                    if tree[i] != None and tree[i + 1] != None:
+                    if tree[i] is not None and tree[i + 1] is not None:
                         if tree[i][1] < tree[i + 1][1]:
                             tree[i // 2] = tree[i]
                         else:
                             tree[i // 2] = tree[i + 1]
                     else:
-                        tree[i // 2] = tree[i] if tree[i] != None else tree[i + 1]
+                        tree[i // 2] = tree[i] if tree[i] is not None else tree[i + 1]
                 index -= n
 
             index, x = tree[0]
             matrix[line][j] = x
-            tree[treeWitdh - width - width % 2 + index] = None
+            tree[tree_witdh - width - width % 2 + index] = None
     return matrix
 
 
@@ -110,16 +110,15 @@ def partition(array, start, end):
     i = start + 1
     j = end - 1
     while True:
-        while (i <= j and array[i] <= pivot):
+        while i <= j and array[i] <= pivot:
             i = i + 1
-        while (i <= j and array[j] >= pivot):
+        while i <= j and array[j] >= pivot:
             j = j - 1
         if i <= j:
             array[i], array[j] = array[j], array[i]
         else:
             array[start], array[j] = array[j], array[start]
             return j
-        # пирамидальная сортировка
 
 
 def heap_sort(matrix):
@@ -144,12 +143,12 @@ def build_max_heap(array):
 def max_heapify(array, index, size):
     l = 2 * index + 1
     r = 2 * index + 2
-    if (l < size and array[l] > array[index]):
+    if l < size and array[l] > array[index]:
         largest = l
     else:
         largest = index
-    if (r < size and array[r] > array[largest]):
+    if r < size and array[r] > array[largest]:
         largest = r
-    if (largest != index):
+    if largest != index:
         array[largest], array[index] = array[index], array[largest]
         max_heapify(array, largest, size)
