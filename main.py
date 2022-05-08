@@ -22,15 +22,16 @@ if __name__ == '__main__':
     lab_3.add_children([lab_3_task_1, lab_3_task_2])
 
     lab_4 = View("Лабораторная работа №4 — Стеки-Деки")
-    lab_4_task_1 = View("Задание №1 — Cортировка названий книг", lab_4_tasks.task_1)
+    lab_4_task_1 = View("Задание №1 — Сортировка названий книг", lab_4_tasks.task_1)
     lab_4_task_2 = View("Задание №2 — Расшифровка", lab_4_tasks.task_2)
     lab_4_task_3 = View("Задание №3 — Пирамидки", lab_4_tasks.task_3)
-    lab_4_task_4 = View("Задание №4 — Проверка круглых скобок", lab_4_tasks.task_4)
-    lab_4_task_5 = View("Задание №5 — Проверка квадратных скобок", lab_4_tasks.task_5)
+    lab_4_task_4 = View("Задание №4 — Баланс круглых скобок", lab_4_tasks.task_4)
+    lab_4_task_5 = View("Задание №5 — Баланс квадратных скобок", lab_4_tasks.task_5)
     lab_4_task_6 = View("Задание №6 — Разделение на цифры, буквы и другое", lab_4_tasks.task_6)
     lab_4_task_7 = View("Задание №7 — Сначала отрицательные, потом положительные", lab_4_tasks.task_7)
     lab_4_task_8 = View("Задание №8 — Строки в обратном порядке", lab_4_tasks.task_8)
-    lab_4.add_children([lab_4_task_1, lab_4_task_2, lab_4_task_3, lab_4_task_4, lab_4_task_5, lab_4_task_6, lab_4_task_7, lab_4_task_8])
+    lab_4.add_children([lab_4_task_1, lab_4_task_2, lab_4_task_3, lab_4_task_4,
+                        lab_4_task_5, lab_4_task_6, lab_4_task_7, lab_4_task_8])
 
     lab_5 = View("Лабораторная работа №5 — Построение фрактала", lab_5_tasks.task_1)
 
