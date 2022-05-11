@@ -26,8 +26,12 @@ class View:
 
         if self.code is not None:
             self.code()
-            #try: self.code()
-            #except: print("Ой, во время выполнения кода произошла ошибка 🤕")
+            """
+            try: 
+                self.code()
+            except(): 
+                print("Ой, во время выполнения кода произошла ошибка 🤕")
+            """
 
         if len(self.children) > 0:
             i = 0
@@ -48,7 +52,7 @@ class View:
                     elif 1 <= enter <= len(self.children):
                         self.children[enter - 1].display()
                         break
-                except:
+                except():
                     pass
         elif self.parent is not None:
             input("\nНажмите Enter чтобы вернуться")
@@ -64,6 +68,3 @@ class View:
         else:
             input("Сохранение повреждено.\n\nНажмите Enter чтобы вернуться к стартовому меню")
             start_view.display()
-
-
-

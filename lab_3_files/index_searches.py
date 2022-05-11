@@ -1,9 +1,9 @@
 # Алгоритм Кнута-Морриса-Пратта
 def KMP_search(haystack, needle):
-    needle_lenght = len(needle)
-    pi = [0] * needle_lenght
+    needle_length = len(needle)
+    pi = [0] * needle_length
 
-    for i in range(1, needle_lenght):
+    for i in range(1, needle_length):
         k = pi[i - 1]
         while k > 0 and needle[k] != needle[i]:
             k = pi[k - 1]
@@ -18,8 +18,8 @@ def KMP_search(haystack, needle):
             k = pi[k - 1]
         if needle[k] == haystack[i]:
             k = k + 1
-        if k == needle_lenght:
-            index = i - needle_lenght + 1
+        if k == needle_length:
+            index = i - needle_length + 1
             break
 
     return index

@@ -13,7 +13,8 @@ def task_1():
     print("\nТаблица зависимости\nглубина | время отрисовки")
     times = [0] * depth
     for i in range(depth):
-        time = round(time_of(viewer.draw_sierpinski, i, 1), 2)
+        time = time_of(viewer.draw_sierpinski, i, precision=1)
+        time = round(time, 2)
         times[i] = time
         print(f"      {i+1} : {time:.2f}")
         wait()

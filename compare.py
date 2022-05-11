@@ -1,36 +1,24 @@
-import time
+import time as t
 
 
 def wait(sec=1):
-    time.sleep(sec)
+    t.sleep(sec)
 
 
 # Подсчёт времени выполнения функции c множеством аргументов
-def time_of(function, func_args: tuple, precision):
+def time_of(function, *func_args, precision=1):
     summa = 0
     for i in range(precision):
-        start = time.perf_counter()
+        start = t.perf_counter()
         function(*func_args)
-        end = time.perf_counter()
-        summa += abs(end - start)
-
-    return summa / precision * 1000
-
-
-# Подсчёт времени выполнения функции c одним аргументом
-def time_of(function, func_arg, precision):
-    summa = 0
-    for i in range(precision):
-        start = time.perf_counter()
-        function(func_arg)
-        end = time.perf_counter()
+        end = t.perf_counter()
         summa += abs(end - start)
 
     return summa / precision * 1000
 
 
 # Нахождение самой быстрой функции
-def find_bestie(args_tuple, precision):
+def find_bestie(functions, precision=1):
     def get_func_name(func):
         func_name_raw = str(func)
 
@@ -54,12 +42,12 @@ def find_bestie(args_tuple, precision):
 
     print('Среднее время выполнения функции:')
 
-    for args in args_tuple:
+    for args in functions:
         function = args[0]
         func_args = args[1:]
 
         func_name = get_func_name(function)
-        time = time_of(function, func_args, precision)
+        time = time_of(function, func_args, precision=precision)
 
         print(f'.\t{func_name} = {time:.4f} мс')
 
