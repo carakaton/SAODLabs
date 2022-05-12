@@ -11,7 +11,7 @@ class View:
         self.parent = None
         View.s.setdefault(name, self)
 
-    def add_children(self, views):
+    def add_children(self, *views):
         for view in views:
             self.children.append(view)
             view.parent = self
@@ -52,7 +52,7 @@ class View:
                     elif 1 <= enter <= len(self.children):
                         self.children[enter - 1].display()
                         break
-                except():
+                except:
                     pass
         elif self.parent is not None:
             input("\nНажмите Enter чтобы вернуться")

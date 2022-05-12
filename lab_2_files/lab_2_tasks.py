@@ -42,7 +42,7 @@ def task_2():
         (simple_rehash_table.find, desired_number),
         (random_rehash_table.find, desired_number),
         (chain_rehash_table.find, desired_number)
-    ], 1)
+    ])
 
 
 # Задание №3

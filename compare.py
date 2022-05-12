@@ -8,7 +8,7 @@ def wait(sec=1):
 # Подсчёт времени выполнения функции c множеством аргументов
 def time_of(function, *func_args, precision=1):
     summa = 0
-    for i in range(precision):
+    for _ in range(precision):
         start = t.perf_counter()
         function(*func_args)
         end = t.perf_counter()
@@ -47,7 +47,7 @@ def find_bestie(functions, precision=1):
         func_args = args[1:]
 
         func_name = get_func_name(function)
-        time = time_of(function, func_args, precision=precision)
+        time = time_of(function, *func_args, precision=precision)
 
         print(f'.\t{func_name} = {time:.4f} мс')
 
