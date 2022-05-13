@@ -5,6 +5,8 @@ from lab_3_files import lab_3_tasks
 from lab_4_files import lab_4_tasks
 from lab_5_files import lab_5_tasks
 
+from final_files import final_tasks
+
 if __name__ == '__main__':
     start_screen = View("Все работы по САОД")
 
@@ -34,6 +36,12 @@ if __name__ == '__main__':
 
     lab_5 = View("Лабораторная работа №5 — Построение фрактала", lab_5_tasks.task_1)
 
-    start_screen.add_children(lab_1, lab_2, lab_3, lab_4, lab_5)
+    final = View("Задачи курсовой работы")
+    final_task_1 = View("Задание №1 — WTF?", final_tasks.task_1)
+    final_task_2 = View("Задание №2 — Это зебра?", final_tasks.task_2)
+    final_task_3 = View("Задание №3 — Файловая система BerOS", final_tasks.task_3)
+    final.add_children(final_task_1, final_task_2, final_task_3)
+
+    start_screen.add_children(lab_1, lab_2, lab_3, lab_4, lab_5, final)
 
     View.load_save(start_view=start_screen)

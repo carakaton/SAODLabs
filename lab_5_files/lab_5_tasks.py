@@ -24,6 +24,8 @@ def task_1():
     for i in range(1, depth):
         step = times[i] / times[i-1]
         summa += step
-    print(f"Шаг геометрической прогрессии: ~{summa / (depth - 1):.1f}")
+
+    result = summa / (depth - 1) if depth > 1 else summa
+    print(f"Шаг геометрической прогрессии: ~{result:.1f}")
 
     viewer.hide()
