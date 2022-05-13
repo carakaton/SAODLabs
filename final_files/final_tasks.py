@@ -15,52 +15,42 @@ def task_1():
 
 # Это зебра?
 def task_2():
-    lines_count = int(input())
-    photo = list(map(int, input().split()))
+    columns_count = int(input())
+    columns = list(map(int, input().split()))
 
-    main_width = 1
-    current_width = 1
+    base_width, current_width = 1, 1
+    miss = False
 
-    i = 1
-    while i != lines_count:
-        if photo[i-1] == photo[i]:
-            main_width += 1
-            i += 1
-        else:
+    for i in range(columns_count - 1):
+        if columns[i] != columns[i + 1]:
             break
+        base_width += 1
 
-    if main_width != lines_count:
-        for i in range(main_width + 1, lines_count):
-            if photo[i-1] == photo[i]:
-                current_width += 1
-            elif current_width != main_width:
-                break
-            else:
-                current_width = 1
+    for i in range(base_width, columns_count - 1):
+        if columns[i] == columns[i + 1]:
+            current_width += 1
+        elif current_width != base_width:
+            miss = True
+            break
         else:
-            if current_width == main_width:
-                print("YES")
-            else:
-                print("NO")
-    else:
+            current_width = 1
+
+    if (not miss and current_width == base_width) or (base_width == columns_count):
         print("YES")
+    else:
+        print("NO")
 
 
 # Файловая система BerOS
 def task_3():
-    string = input()
-    optimized = ""
-    counter = 0
+    original = input()
+    optimized = '/'
 
-    for char in string:
-        if char != "/":
+    for char in original:
+        if (char != '/') or (char == '/' and optimized[-1] != '/'):
             optimized += char
-            counter = 0
-        else:
-            counter += 1
-            if counter == 1:
-                optimized += char
-            else:
-                pass
+
+    if optimized[-1] == '/' and len(optimized) > 1:
+        optimized = optimized[:-1]
 
     print(optimized)
