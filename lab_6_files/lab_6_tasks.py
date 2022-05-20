@@ -1,4 +1,5 @@
 from lab_6_files.graph import *
+from compare import time_of
 
 
 def task_1():
@@ -15,9 +16,13 @@ def task_1():
     start_point, end_point = map(int, input('\nВведите две точки через пробел: ').split())
     path, distance = graph.bellman_ford(start_point, end_point)
 
+    # Времени поиска маршрута
+    time = time_of(graph.bellman_ford, start_point, end_point)
+    print(f'\nВремя поиска: {time:.3f}')
+
     # Вывод маршрута
     if distance != float('Inf'):
-        print(f'\nКратчайшие расстояние от точки "{start_point}" до точки "{end_point}" = {distance}')
+        print(f'Кратчайшие расстояние от точки "{start_point}" до точки "{end_point}" = {distance}')
     else:
-        print(f'\nНевозможно построить кратчайший маршрут из точки "{start_point}" в точку "{end_point}"')
+        print(f'Невозможно построить кратчайший маршрут из точки "{start_point}" в точку "{end_point}"')
     graph.display(path=path)
