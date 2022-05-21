@@ -1,21 +1,14 @@
 # Вывод списка значений
-def values(values, message=""):
+def print_values(values: list, message: str = '') -> None:
     text = message
-    for value in values:
-        text += f"{value}, "
-    print(text[:-2])
-
-
-# Комментарий
-def title(text):
-    print(f"\n\n{text}\n")
+    print(values, sep=', ')
 
 
 # Вывод матрицы в консоль
-def print_matrix(matrix, title=""):
-    print("\n" + title)
+def print_matrix(matrix: list[list[any]], element_max_length: int = 4, title: str = '') -> None:
+    print(f'\n{title}')
     for line in matrix:
         for number in line:
             cell = str(number)
-            print(cell + " " * (4 - len(cell)), end=' ')
-        print("\n")
+            print(cell + ' ' * (element_max_length - len(cell)), end=' ')
+        print('\n')

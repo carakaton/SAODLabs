@@ -7,6 +7,7 @@ from lab_5_files import lab_5_tasks
 from lab_6_files import lab_6_tasks
 from final_files import final_tasks
 
+
 if __name__ == '__main__':
     start_screen = View('Все работы по САОД')
 
@@ -15,7 +16,7 @@ if __name__ == '__main__':
     lab_2 = View('Лабораторная работа №2 — Поиск и Шахматы')
     lab_2_task_1 = View('Задание №1 — Алгоритмы поиска', lab_2_tasks.task_1)
     lab_2_task_2 = View('Задание №2 — Поиск хешированием', lab_2_tasks.task_2)
-    lab_2_task_3 = View('Задание №3 — Шахматы', lab_2_tasks.task_three)
+    lab_2_task_3 = View('Задание №3 — Шахматы', lab_2_tasks.task_3)
     lab_2.add_children(lab_2_task_1, lab_2_task_2, lab_2_task_3)
 
     lab_3 = View('Лабораторная работа №3 — Подстроки и Пятнашки')

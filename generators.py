@@ -2,11 +2,11 @@ import random
 
 
 # Генерация списка из случайных чисел
-def generate_numbers(count=10, min_limit=0, max_limit=999):
+def generate_numbers(count=10, min_limit=0, max_limit=999) -> list:
     return [random.randint(min_limit, max_limit) for value in range(count)]
 
 
-# создание матрицы m*n из случынйх чисел от min_limit до max_limit
+# Создание матрицы m*n из случайных чисел от min_limit до max_limit
 def generate_matrix(m=50, n=50, min_limit=-250, max_limit=1009):
     return [[random.randint(min_limit, max_limit) for j in range(n)] for i in range(m)]
 
@@ -28,13 +28,13 @@ def delete_value(values, index):
 
 
 # Генерация данных
-def generate_strings(variant, lenght):
+def generate_strings(variant, length):
     strings = []
 
     if variant == "words":
         letters = [
             "a", "a", "b", "c", "o", "o", "d", "v", "g", "u", "u", "e", "e", "e"]
-        for i in range(lenght):
+        for i in range(length):
             word = ""
             for j in range(5):
                 letter = random_value(letters)
@@ -44,7 +44,7 @@ def generate_strings(variant, lenght):
     elif variant == "txt_emojies":
         txt_emojies = [
             "▼・ᴥ・▼", "(O_O)", "(･ω･)", "ʕ•ᴥ•ʔ", "(´∨`)", "(ಥ‿ಥ)", "(　；∀；)", "ʕ •ₒ• ʔ", "=^._.^=", "(๑ↀᆺↀ๑)", "(*´罒`*)"]
-        for i in range(lenght):
+        for i in range(length):
             txt_emoji = random_value(txt_emojies)
             strings.append(txt_emoji)
 
@@ -56,7 +56,7 @@ def generate_strings(variant, lenght):
             "🥶", "😶", "😱", "😨", "😰", "😥", "😓", "🤗", "🤔", "🫣", "🤭", "🫢", "🫡", "🤫", "🫠", "🤥", "😶", "🫥",
             "😐", "🫤", "😑", "😬", "🙄", "😯", "😦", "😧", "😮", "😲", "🥱", "😴", "😪", "😮", "😵", "😵", "🤐", "🥴",
             "🤧", "😷", "🤒", "🤕", "😈", "👿", "🤡"]
-        for i in range(lenght):
+        for i in range(length):
             emoji = random_value(emojies)
             strings.append(emoji)
 
