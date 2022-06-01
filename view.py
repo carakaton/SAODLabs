@@ -1,76 +1,76 @@
-import os
+from os import system
 
 
-# Реализация вида
+def get_variant(message: str = None, variants=None) -> str or int:
+    entered = None
+    while entered not in variants:
+        entered = input(message)
+        if entered.isnumeric(): entered = int(entered)
+    return entered
+
+
+# Реализация экрана
 class View:
-    s: {} = {}  # Словарь всех видов
+    SAVE_FILE = 'save.data'
+    M_PRESS_ENTER = ''
 
-    # Инициализация вида
-    def __init__(self, name: str, code: () = None):
-        self.name = name  # Имя вида
-        self.code = code  # Исполняемый код вида
-        self.children = []  # Список дочерних видов
-        self.parent = None  # Родительский вид
+    s: {} = {}  # Словарь всех экранов
+
+    # Инициализация экрана
+    def __init__(self, name: str, code=None) -> None:
+        self.name = name  # Имя экрана
+        self.code = code  # Исполняемый код экрана
+        self.children = []  # Список дочерних экранов
+        self.parent = None  # Родительский экран
         View.s.setdefault(name, self)
 
-    # Добавление дочерних видов к виду
-    def add_children(self, *views):
+    # Добавление дочерних экранов
+    def add_children(self, *views) -> None:
         for view in views:
             self.children.append(view)
             view.parent = self
 
-    # Вывод вида в консоль
-    def display(self):
-        # Сохранение в файл
-        with open("save.data", 'w') as save:
-            save.write(self.name)
+    # Вывод экрана в консоль
+    def display(self) -> None:
+        # Запись сохранения в файл
+        with open(View.SAVE_FILE, 'w') as save: save.write(self.name)
 
-        print("-----------------------------------------------")
-        os.system('clear')
-        print(f"{self.name}\n")
+        # Подготовка
+        print('-' * 40)
+        system('clear')
+        print(f'{self.name}\n')
 
-        if self.code is not None:
-            self.code()
-            """
-            try: 
-                self.code()
-            except(): 
-                print("Ой, во время выполнения кода произошла ошибка 🤕")
-            """
+        # Выполнение кода, если есть
+        if self.code is not None: self.code()
 
+        # Вывод списка связанных элементов
+        for i, view in enumerate(self.children): print(f'{i+1}. {view.name}')
+        if self.parent is not None: print(f'0. {self.parent.name}')
+        print()
+
+        # Если есть связанные экраны
         if len(self.children) > 0:
-            i = 0
-            for view in self.children:
-                i += 1
-                print(f"{i}. {view.name}")
-            if self.parent is not None: print(f"0. {self.parent.name}")
-            print()
-            while True:
-                try:
-                    enter = int(input("Введите номер элемента, чтобы перейти: "))
-                    if enter == 0:
-                        if self.parent is not None:
-                            self.parent.display()
-                            break
-                        else:
-                            break
-                    elif 1 <= enter <= len(self.children):
-                        self.children[enter - 1].display()
-                        break
-                except:
-                    pass
+            # Получение номера
+            number = get_variant(
+                message='Введите номер элемента, чтобы перейти: ',
+                variants=[x for x in range(0, len(self.children))])
+
+            # Запуск выбранного экрана
+            if number != 0: self.children[number-1].display()
+            else: self.parent.display()
+
+        # Если есть только родительский экран
         elif self.parent is not None:
-            input("\nНажмите Enter чтобы вернуться")
+            input('\nНажмите Enter чтобы вернуться')
             self.parent.display()
 
     # Загрузка сохранения из файла
     @staticmethod
-    def load_save(start_view):
-        with open("save.data") as save:
-            link = save.readline().rstrip()
-        view = View.s.get(link)
-        if view is not None:
-            view.display()
+    def load_save(start_view) -> None:
+        with open(View.SAVE_FILE) as save: name = save.readline().rstrip()
+        view = View.s.get(name)
+
+        if view is not None: view.display()
         else:
-            input("Сохранение повреждено.\n\nНажмите Enter чтобы вернуться к стартовому меню")
+            input('Сохранение повреждено.\n\nНажмите Enter чтобы вернуться к стартовому экрану')
             start_view.display()
