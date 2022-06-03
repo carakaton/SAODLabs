@@ -1,5 +1,5 @@
 # Алгоритм Кнута-Морриса-Пратта
-def KMP_search(haystack, needle):
+def kmp_search(haystack, needle):
     needle_length = len(needle)
     pi = [0] * needle_length
 
@@ -25,8 +25,8 @@ def KMP_search(haystack, needle):
     return index
 
 
-# Упрощенный алгоритм Бойера-Мура
-def BM_search(haystack, needle):
+# Упрощённый алгоритм Бойера-Мура
+def bm_search(haystack, needle):
     needle_length = len(needle)
     haystack_length = len(haystack)
 

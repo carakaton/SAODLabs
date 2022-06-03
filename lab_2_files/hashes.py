@@ -1,149 +1,102 @@
-import display
+# Реализация хеш-таблицы
+class HashTable:
 
+    SIZE = 10  # Размер любой хеш-таблицы
 
-# Таблица хешей
-class HashTable():
-    size = 10
-
-    def __init__(self, values: list, length: int = size):
+    # Инициализация
+    def __init__(self, name: str, values: list, length: int = SIZE) -> None:
+        self.name = name
+        self.rehashes = []
         self.values = [None] * length
-        for value in values:
-            self.insert(value)
+        for value in values: self.insert(value)
+
+    # Шаблон метода рехеширования
+    def rehash_method(self, searched: str or None, _hash: int):
+        return _hash
+
+    # Вставка элемента в таблицу
+    def insert(self, value: str):
+        base_hash = self.hash_string(value)
+        index = self.rehash_method(None, base_hash)
+
+        if index != base_hash: self.rehashes.append(f'Коллизия: {base_hash}->{index}')
+        if index is not None: self.values[index] = value
+
+    # Отображение таблицы
+    def display(self, show_rehashes=False):
+        print(f'\n{self.name}')
+
+        for i, value in enumerate(self.values):
+            if value is not None: print(f'{i}: {value}')
+            else: print(f'{i}: Нет значения')
+
+        if self.rehashes != [] and show_rehashes: print(*self.rehashes, sep=', ')
+
+    # Поиск элемента в таблице
+    def find(self, value):
+        base_hash = HashTable.hash_string(value)
+
+        index = self.rehash_method(value, base_hash)
+        return index is not None
 
     @staticmethod
-    def hash_string(string):
-        hash = 0
+    def hash_string(string: str) -> int:
+        _hash = 0
         for i in range(len(string)):
-            hash += ord(string[i]) * (i + 1)
-        return hash % HashTable.size
-
-    @staticmethod
-    def hash_number(number):
-        hash = int(((number % HashTable.size) * 331) & 127)
-        return hash % HashTable.size
+            _hash += ord(string[i]) * (i + 1)
+        return _hash % HashTable.SIZE
 
 
 # Таблица с простым рехешированием
 class SimpleRehashTable(HashTable):
-    overflow = []
-    rehashes = []
-
-    def insert(self, value):
-        hash = self.hash_string(value)
-        base_hash = hash
-        while self.values[hash] is not None:
-            hash -= 1
-            if hash == -(HashTable.size - base_hash):
-                self.overflow.append(value)
-                return
-
-        if hash != base_hash: self.rehashes.append(
-            f"\n{value} ({(hash + HashTable.size) % HashTable.size}) коллизия в ячейке {base_hash}")
-        self.values[hash] = value
-
-    def display(self, show_overflows=True, show_rehashes=False):
-        print('Таблица с простым рехешированием')
-
-        for i, value in enumerate(self.values):
-            if value is not None:
-                print(f'{i}: {value}')
-            else:
-                print(f'{i}: Нет значения')
-
-        if self.overflow != [] and show_overflows:
-            display.print_values(self.overflow, 'Переполнение: ')
-        if self.rehashes != [] and show_rehashes:
-            display.print_values(self.rehashes, 'Рехеширование: ')
-        print()
-
-    def find(self, value):
-        hash = HashTable.hash_string(value)
-        base_hash = hash
-        while self.values[hash] != value:
-            hash -= 1
-            if hash == -(HashTable.size - base_hash):
-                self.overflow.append(value)
-                return False
-        return True
+    def rehash_method(self, searched, _hash):
+        attempt = 0
+        while self.values[_hash] is not searched:
+            _hash = (_hash + 1) % HashTable.SIZE
+            attempt += 1
+            if attempt == HashTable.SIZE:
+                return None
+        return _hash
 
 
 # Таблица с рехешированием с помощью псевдослучайных чисел
 class RandomRehashTable(HashTable):
-    overflow = []
-    rehashes = []
-
-    def insert(self, value):
-        hash = HashTable.hash_string(value)
-        base_hash = hash
-
-        attempt = 1
-        rand = 1
-        while self.values[hash] is not None:
-            rand *= attempt
-            hash = (hash + rand + 1) % HashTable.size
+    def rehash_method(self, searched, _hash):
+        attempt = 0
+        while self.values[_hash] is not searched:
+            _hash = HashTable.hash_string(str(_hash)) % HashTable.SIZE
             attempt += 1
-            if attempt == HashTable.size + 1:
-                self.overflow.append(value)
-                return
-
-        if hash != base_hash: self.rehashes.append(
-            f"\n{value} ({(hash + HashTable.size) % HashTable.size}) коллизия в ячейке {base_hash}")
-        self.values[hash] = value
-
-    def display(self, show_overflows=True, show_rehashes=False):
-        print('Таблица с рехешированием с помощью псведослучайных чисел')
-
-        for i, value in enumerate(self.values):
-            if value is not None:
-                print(f'{i}: {value}')
-            else:
-                print(f'{i}: Нет значения')
-
-        if self.overflow != [] and show_overflows:
-            display.print_values(self.overflow, 'Переполнение: ')
-        if self.rehashes != [] and show_rehashes:
-            display.print_values(self.rehashes, 'Рехеширование: ')
-        print()
-
-    def find(self, value):
-        hash = HashTable.hash_string(value)
-        base_hash = hash
-
-        attempt = 1
-        rand = 1
-        while self.values[hash] != value:
-            rand *= attempt
-            hash = (hash + rand + 1) % HashTable.size
-            if hash == HashTable.size + 1:
-                self.overflow.append(value)
-                return False
-        return True
+            if attempt == HashTable.SIZE:
+                return None
+        return _hash
 
 
 # Таблица с рехешированием методом цепочек
 class ChainRehashTable(HashTable):
 
-    def insert(self, value):
-        hash = HashTable.hash_string(value)
-        if self.values[hash] is None:
-            self.values[hash] = [value]
+    def insert(self, value: str):
+        _hash = HashTable.hash_string(value)
+
+        if self.values[_hash] is None:
+            self.values[_hash] = [value]
         else:
-            self.values[hash].append(value)
+            self.values[_hash].append(value)
 
     def display(self):
-        print("Таблица с рехешированием методом цепочек")
+        print(f'\n{self.name}')
 
-        for i, value in enumerate(self.values):
-            if value is not None:
-                display.print_values(value, f"{i}: ")
+        for i, elements in enumerate(self.values):
+            if elements is not None:
+                print(f'{i}:', end=' ')
+                print(*elements, sep=', ')
             else:
                 print(f'{i}: Нет значения')
-        print()
 
     def find(self, value):
-        hash = HashTable.hash_string(value)
-        if self.values[hash] is not None:
-            for _value in self.values[hash]:
-                if _value == value:
+        _hash = HashTable.hash_string(value)
+
+        if self.values[_hash] is not None:
+            for element in self.values[_hash]:
+                if element == value:
                     return True
         return False

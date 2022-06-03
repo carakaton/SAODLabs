@@ -17,7 +17,7 @@ class FractalViewer:
     # Инициализация
     def __init__(self, size=800):
         self.screen = Screen()
-        self.screen.title("Кривая Серпинского")
+        self.screen.title('Кривая Серпинского')
         self.screen_size = size
 
         self.turtle = Turtle()
@@ -26,7 +26,7 @@ class FractalViewer:
         self.turtle.up()
 
         # Выбор темы
-        turtle_color, screen_bgcolor = ("white", "black") if check_appearance() else ("black", "white")
+        turtle_color, screen_bgcolor = ('white', 'black') if check_appearance() else ('black', 'white')
         self.turtle.color(turtle_color)
         self.screen.bgcolor(screen_bgcolor)
 

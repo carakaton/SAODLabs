@@ -1,20 +1,16 @@
 from os import system
 
 
-def get_variant(message: str = None, variants=None) -> str or int:
-    entered = None
-    while entered not in variants:
-        entered = input(message)
-        if entered.isnumeric(): entered = int(entered)
-    return entered
+SAVE_FILE = 'save.data'
+M_ENTER_NUMBER = 'Введите номер элемента, чтобы перейти: '
+M_PRESS_ENTER = '\nНажмите Enter чтобы вернуться'
+M_SAVE_FAULT = f'\nСохранение повреждено.\n{M_PRESS_ENTER} к стартовому экрану'
 
 
 # Реализация экрана
 class View:
-    SAVE_FILE = 'save.data'
-    M_PRESS_ENTER = ''
 
-    s: {} = {}  # Словарь всех экранов
+    s = {}  # Словарь всех экранов
 
     # Инициализация экрана
     def __init__(self, name: str, code=None) -> None:
@@ -33,44 +29,55 @@ class View:
     # Вывод экрана в консоль
     def display(self) -> None:
         # Запись сохранения в файл
-        with open(View.SAVE_FILE, 'w') as save: save.write(self.name)
+        with open(SAVE_FILE, 'w') as save: save.write(self.name)
 
-        # Подготовка
-        print('-' * 40)
+        # Обнуление и вывод имени
+        print('\n' + '-' * 40)
         system('clear')
-        print(f'{self.name}\n')
+        print(f'\n{self.name}\n')
 
         # Выполнение кода, если есть
         if self.code is not None: self.code()
 
-        # Вывод списка связанных элементов
-        for i, view in enumerate(self.children): print(f'{i+1}. {view.name}')
-        if self.parent is not None: print(f'0. {self.parent.name}')
-        print()
-
-        # Если есть связанные экраны
+        # Если есть дочерние элементы
         if len(self.children) > 0:
+
+            # Вывод списка связанных элементов
+            for i, view in enumerate(self.children): print(f'{i + 1}. {view.name}')
+            if self.parent is not None: print(f'0. {self.parent.name}')
+
             # Получение номера
             number = get_variant(
-                message='Введите номер элемента, чтобы перейти: ',
-                variants=[x for x in range(0, len(self.children))])
+                message=M_ENTER_NUMBER,
+                variants=[x for x in range(0, len(self.children)+1)])
 
             # Запуск выбранного экрана
-            if number != 0: self.children[number-1].display()
-            else: self.parent.display()
+            if number == 0: self.parent.display()
+            else: self.children[number-1].display()
 
         # Если есть только родительский экран
-        elif self.parent is not None:
-            input('\nНажмите Enter чтобы вернуться')
+        else:
+            input(M_PRESS_ENTER)
             self.parent.display()
 
     # Загрузка сохранения из файла
     @staticmethod
     def load_save(start_view) -> None:
-        with open(View.SAVE_FILE) as save: name = save.readline().rstrip()
-        view = View.s.get(name)
+        with open(SAVE_FILE) as save: link = save.readline().rstrip()
+        view = View.s.get(link)
 
-        if view is not None: view.display()
-        else:
-            input('Сохранение повреждено.\n\nНажмите Enter чтобы вернуться к стартовому экрану')
+        if view is None:
+            input(M_SAVE_FAULT)
             start_view.display()
+        else:
+            view.display()
+
+
+# Ввод значения из определённого допустимого списка
+def get_variant(message: str = None, variants=None) -> str or int:
+    print()
+    entered = None
+    while entered not in variants:
+        entered = input(message)
+        if entered.isnumeric(): entered = int(entered)
+    return entered

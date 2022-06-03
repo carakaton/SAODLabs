@@ -1,5 +1,4 @@
 import queue
-import time
 
 
 # Инверсия - когда больший элемент стоит до меньшего элемента
@@ -117,7 +116,7 @@ class BoardState:
 def solve_astar(array, n=4, m=4, goal=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0]):
     # Если нерешаемо, возвращаем пустой массив
     if not is_solvable(array):
-        return "Not solvable"
+        return 'Not solvable'
     else:
         # Создаём приоритетную очередь, для обработки состояний поля
         pq = queue.PriorityQueue()

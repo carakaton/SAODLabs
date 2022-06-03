@@ -36,9 +36,9 @@ def task_2():
             current_width = 1
 
     if (not miss and current_width == base_width) or (base_width == columns_count):
-        print("YES")
+        print('YES')
     else:
-        print("NO")
+        print('NO')
 
 
 # Файловая система BerOS

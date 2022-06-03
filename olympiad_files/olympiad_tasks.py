@@ -1,6 +1,3 @@
-from display import print_matrix
-
-
 # Поиск наибольшего периметра
 def task_1():
 
@@ -51,43 +48,46 @@ def task_2():
     result = ''
     for number in numbers:
         result += str(number)
-        result += '.'  # разделители для удобной проверки
+        result += '.'  # Разделители для удобной проверки
     print(result)
 
 
+# Сортировка матрицы по-диагонали
 def task_3():
-    # ввод матрицы (пример: 1 2 3, 4 5 6, 7 8 9)
-    def enterMatrix():
-        enter = list(input().split(","))
-        matrix = list()
-        for line in range(len(enter)):
-            matrix.append(list(map(int, enter[line].split())))
-        return matrix
 
-    matrix = enterMatrix()
+    # Ввод матрицы (пример: 1 2 3, 4 5 6, 7 8 9)
+    enter = list(input().split(','))
+    matrix = list()
+    for line in range(len(enter)):
+        matrix.append(list(map(int, enter[line].split())))
 
-    # сортировка по-диагонали
-    def diagonalSort(matrix):
-        matrixHeight = len(matrix)
-        matrixLenght = len(matrix[0])
-        startY = matrixHeight
-        startX = 0
+    # Сортировка
+    matrix_height = len(matrix)
+    matrix_length = len(matrix[0])
+    start_y = matrix_height
+    start_x = 0
 
-        diagonalCount = matrixLenght + matrixHeight - 1
-        for d in range(diagonalCount):
-            diagonalLength = min(matrixHeight - startY, matrixLenght - startX)
-            for i in range(diagonalLength - 1):
-                y = startY
-                x = startX
-                for j in range(diagonalLength - i - 1):
-                    if matrix[y][x] > matrix[y + 1][x + 1]:
-                        matrix[y][x], matrix[y + 1][x + 1] = matrix[y + 1][x + 1], matrix[y][x]
-                    y += 1
-                    x += 1
+    diagonal_count = matrix_length + matrix_height - 1
+    for d in range(diagonal_count):
+        diagonal_length = min(matrix_height - start_y, matrix_length - start_x)
+        for i in range(diagonal_length - 1):
+            y = start_y
+            x = start_x
+            for j in range(diagonal_length - i - 1):
+                if matrix[y][x] > matrix[y + 1][x + 1]:
+                    matrix[y][x], matrix[y + 1][x + 1] = matrix[y + 1][x + 1], matrix[y][x]
+                y += 1
+                x += 1
 
-            if startY != 0:
-                startY -= 1
-            else:
-                startX += 1
+        if start_y != 0:
+            start_y -= 1
+        else:
+            start_x += 1
 
-    print_matrix(matrix, 3)
+    # Вывод матрицы в консоль
+    for line in matrix:
+        print()
+        for number in line:
+            cell = str(number)
+            print(cell + ' ' * (3 - len(cell)), end=' ')
+    print()

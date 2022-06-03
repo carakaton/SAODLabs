@@ -2,17 +2,7 @@ from networkx import DiGraph, planar_layout, draw, \
     draw_networkx_edges as draw_edges, \
     get_edge_attributes as get_attributes, \
     draw_networkx_edge_labels as draw_labels
-
 from matplotlib.pyplot import show
-
-
-# Запись данных из файла в матрицу
-def get_matrix_from(file: str) -> [[float]]:
-    with open(file) as lines:
-        matrix = [[float(char) if char != '.' else float('Inf')
-                   for char in line.split()]
-                  for line in lines]
-    return matrix
 
 
 # Реализация графа

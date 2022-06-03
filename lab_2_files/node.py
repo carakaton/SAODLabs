@@ -5,7 +5,7 @@ class Node:
         self.right = None
         self.value = value
 
-    # добавление дочернего узла
+    # Добавление дочернего узла
     def add_branch(self, value):
         if self.value:
             if value < self.value:
@@ -21,7 +21,7 @@ class Node:
         else:
             self.value = value
 
-    # поиск значения от указанного узла
+    # Поиск значения от указанного узла
     def find_value(self, value):
         if value < self.value:
             if self.left is None:

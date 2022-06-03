@@ -1,50 +1,30 @@
 # Ввод строки и подстроки с клавиатуры
-from compare import find_bestie, display_times, func_name
+from compare import compare_funcs
 from lab_3_files.index_searches import *
 from lab_3_files.barley_break import solve_astar
-
-
-def enter_strings():
-    haystack = input('Введите строку: ')
-    needle = input('Введите подстроку: ')
-    return haystack, needle
-
-
-# Вывод индекса
-def display_index(haystack, needle_length, index):
-    if index != -1:
-        print(f'\n{haystack}')
-        print(' ' * index + '^' + '-' * (needle_length - 1))
-        print(' ' * index + str(index))
-    else:
-        print('\nПодстрока отсутствует')
+from view import get_variant
 
 
 # Поиски в строке
 def task_1():
-    haystack, needle = enter_strings()
+    haystack = input('Введите строку: ')
+    needle = input('Введите подстроку: ')
     original_haystack = haystack
 
-    is_case_matter = ''
-    while is_case_matter != 'y' and is_case_matter != 'n':
-        is_case_matter = input('Необходима чувствительность к регистру? (y/n): ')
-    if is_case_matter == 'n':
-        haystack = haystack.lower()
-        needle = needle.lower()
+    is_case_matter = get_variant(
+        message='Необходима чувствительность к регистру? (y/n): ',
+        variants=('y', 'n', 'д', 'н'))
 
-    index = KMP_search(haystack, needle)
-    display_index(original_haystack, len(needle), index)
+    if is_case_matter in ('n', 'н'):
+        haystack, needle = haystack.lower(), needle.lower()
 
-    index = BM_search(haystack, needle)
-    display_index(original_haystack, len(needle), index)
-
-    funcs = (KMP_search, BM_search, haystack.find)
-    names = list(map(func_name, funcs))
+    funcs = (kmp_search, bm_search, haystack.find)
     args = [(haystack, needle) for _ in range(3)]
-    args[2] = (needle, None, None)
+    args[2] = (needle, )
+    results = compare_funcs(funcs, args)
 
-    times, best_time, _ = find_bestie(funcs, args)
-    display_times(names, times, best_time)
+    display_index(original_haystack, len(needle), results[0])
+    display_index(original_haystack, len(needle), results[1])
 
 
 # Пятнашки
@@ -59,3 +39,13 @@ def task_2():
     # #moves = solve_astar([9, 5, 14, 15, 13, 6, 7, 11, 12, 10, 8, 2, 3, 4, 1, 0])
     # print('[solve_astar] moves: ', moves, '\n[solve_astar] total moves:', len(moves))  # Решаемо
     # print('[solve_astar] took %s seconds' % (time.time() - start_time))
+
+
+# Вывод индекса
+def display_index(haystack, needle_length, index):
+    if index != -1:
+        print(f'\n{haystack}')
+        print(' ' * index + '^' + '-' * (needle_length - 1))
+        print(' ' * index + str(index))
+    else:
+        print('\nПодстрока отсутствует')
